@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxzy.mybatis.mapper.OrderMapper">
+
+
+  <resultMap id="order" type="Orders">
+        <result column="id" property="id"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="number" property="number" ></result>
+        <result column="note" property="note" ></result>
+        <result column="createtime" property="createtime" ></result>
+       <!--    一对一 -->
+        <association property="user" javaType="com.hxzy.mybatis.pojo.User">
+          <id  column="user_id" property="id"/>
+          <result column="username" property="username"></result>
+        </association>
+  
+  </resultMap>
+
+	
+
+	<select id="selcetOrders" resultMap="order">
+	  select o.id,o.user_id,o.number,o.createtime,o.note,s.username
+      from orders o 
+      left join user s 
+      on o.user_id=s.id
+	
+	</select>
+
+
+	<resultMap type="com.hxzy.mybatis.pojo.User" id="us">
+	<id column="user_id"  property="id"></id>
+    <result column="username" property="username"></result>
+     <!--   一对多 -->
+     <collection property="ordersList" javaType="list" ofType="orders">
+         <id column="id" property="id" ></id>
+         <result column="user_id" property="userId"></result>
+         <result column="number" property="number" ></result>
+         <result column="note" property="note" ></result>
+         <result column="createtime" property="createtime" ></result>
+     </collection>
+	
+	</resultMap>
+	<select id="selcetUserList" resultMap="us">
+	
+	 select u.username,o.id,o.user_id,o.number,o.createtime,o.note
+      from user u 
+      left join orders o 
+      on u.id=o.user_id
+	</select>
+
+</mapper>
+

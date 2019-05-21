@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<mapper namespace="com.hxzy.mybatis.mapper.UserMapper">
+
+<sql id="selector"> select * from user </sql>
+
+<select id="findUserByQueryVo" resultType="User" parameterType="QueryVo"> select * from user where username like "%"#{user.username}"%" </select>
+
+<select id="countUser" resultType="Integer"> select count(1) from user </select>
+
+
+<select id="selectUserBySexAndUserName" resultType="User" parameterType="User">
+
+<include refid="selector"/>
+
+
+<where>
+
+<if test="username!=null and username!=''"> and username=#{username} </if>
+
+<if test="sex!=null and sex!=''"> and sex=#{sex} </if>
+
+</where>
+
+</select>
+
+<!-- select * from user where id in (28,30,32); -->
+
+
+<!-- item表示集合中每一个元素进行迭代时的别名， open表示该语句以什么开始， separator表示在每次进行迭代之间以什么符号作为分隔 符， close表示以什么结束。 list 28 30 32 select * from user where id in (28) select * from user where id in (28,30) select * from user where id in (28,30,32) -->
+
+
+
+<select id="selectUserByIds" resultType="User" parameterType="List">
+
+<include refid="selector"/>
+
+
+<where>
+
+<foreach close=")" open="id in (" separator="," item="id1" collection="list"> #{id1} </foreach>
+
+</where>
+
+</select>
+
+</mapper>
