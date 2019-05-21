@@ -28,6 +28,7 @@ public class MybatisMapperTest {
 		QueryVo vo=new QueryVo();
 		
 		System.out.println("hehe");
+		System.out.println("hello");
 		User u=new User();
 		u.setUsername("五");
 		
