@@ -29,6 +29,7 @@ public class MybatisMapperTest {
 		
 		System.out.println("hehe");
 		System.out.println("hello");
+		System.out.println("hahahhahha");
 		User u=new User();
 		u.setUsername("五");
 		
